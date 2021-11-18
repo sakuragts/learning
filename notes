@@ -1,0 +1,1 @@
+- write to file, return caret to beginning of file, read to file what we wrote, print what was read, close
