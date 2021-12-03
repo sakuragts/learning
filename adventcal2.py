@@ -5,9 +5,11 @@ depth = 0
 
 direction_file = csv.reader(open('directions.csv'))
 directions = list(direction_file)
-directions = [str(direction) for direction in directions]
 
-print(directions)
+#transforme en liste de string
+strdirections = []
+for string in directions:
+    strdirections.append(string[0])
 
 def forward(steps):
     global horizontal
@@ -24,10 +26,21 @@ def up(steps):
 def multiply(hor, dep):
     return hor * dep
 
-forward(5)
-down(5)
-forward(8)
-up(3)
-down(8)
-forward(2)
+
+def convert_dir(direction):
+    for word in direction.split():
+        if word.isdigit():
+            step = int(word)
+        else:
+            dir = word
+    if "forward" in dir:
+        forward(step)
+    if "down" in dir:
+        down(step)
+    if "up" in dir:
+        up(step)
+
+for i in range(len(strdirections)):
+    convert_dir(strdirections[i])
+
 print(multiply(horizontal, depth))
