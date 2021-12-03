@@ -2,6 +2,7 @@ import csv
 
 horizontal = 0
 depth = 0
+aim = 0
 
 direction_file = csv.reader(open('directions.csv'))
 directions = list(direction_file)
@@ -13,15 +14,18 @@ for string in directions:
 
 def forward(steps):
     global horizontal
+    global depth
+    global aim
     horizontal = horizontal + steps
+    depth = depth + (aim * steps)
 
 def down(steps):
-    global depth
-    depth = depth + steps
+    global aim
+    aim = aim + steps
 
 def up(steps):
-    global depth
-    depth = depth - steps
+    global aim
+    aim = aim - steps
 
 def multiply(hor, dep):
     return hor * dep
