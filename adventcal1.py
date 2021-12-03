@@ -3,10 +3,9 @@ import csv
 def day1_1():
     entry = csv.reader(open('entries.csv'))
     results = list(entry)
-
+    results = [int(elem[0]) for elem in results]
     i = 0
     increase = 0
-    issame = 0
     
     for data in results:
         if i < len(results) - 1:
