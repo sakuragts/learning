@@ -1,9 +1,9 @@
 import csv
 
 diagnostic = csv.reader(open('diagnostic.csv'))
-results = list(diagnostic)
+binaries = list(diagnostic)
 strresults = []
-for string in results:
+for string in binaries:
     strresults.append(string[0])
 
 gamma = ''
@@ -12,26 +12,24 @@ o2gen = ''
 co2scrub = ''
 most = True
 
-def compare_bit(results, bit):
+def compare_bit(binaries, bit):
     zero = 0
     one = 0
-    for i in range(len(results)):
-        if results[i][bit] == '0':
-            zero = zero + 1
+    for binary in binaries:
+        if binary[bit] == '0':
+            zero += 1
         else:
-            one = one + 1
-    if zero < one:
+            one += 1
+    if zero <= one:
         return 1
-    elif zero == one:
-        return 2
     else:
         return 0
 
-def add_bit(results, ind, value):
+def add_bit(binaries, ind, value):
     temp = []
-    for i in range(len(results)):
-        if results[i][ind] == value:
-            temp.append(results[i])
+    for binary in binaries:
+        if binary[ind] == value:
+            temp.append(binary)
     return temp
 
 def multi_decimal():
@@ -41,32 +39,27 @@ def multi_decimal():
     deci_epsilon = int(epsilon, 2)
     return deci_gamma * deci_epsilon
 
-def compiled_results(results, ind, most):
+def compiled_results(binaries, ind, most):
     temp = []
     
-    if compare_bit(results, ind) == 0:
+    if compare_bit(binaries, ind) == 0:
         if most:                
-            temp = add_bit(results, ind, '0')
+            temp = add_bit(binaries, ind, '0')
         else:
-            temp = add_bit(results, ind, '1')
-    if compare_bit(results, ind) == 1:
+            temp = add_bit(binaries, ind, '1')
+    if compare_bit(binaries, ind) == 1:
         if most:
-            temp = add_bit(results, ind, '1')
+            temp = add_bit(binaries, ind, '1')
         else:
-            temp = add_bit(results, ind, '0')
-    if compare_bit(results, ind) == 2:
-        if most:
-            temp = add_bit(results, ind, '1')
-        else:
-            temp = add_bit(results, ind, '0')
+            temp = add_bit(binaries, ind, '0')
     return temp
  
-def o2results(results):
+def o2results(binaries):
     global o2gen
     temp = []
-    for i in range(len(results[0]) + 1):
+    for i in range(len(binaries[0]) + 1):
         if not temp:
-            temp = compiled_results(results, i, True)
+            temp = compiled_results(binaries, i, True)
         elif len(temp) == 1:
             o2gen = temp[0]
         else:
